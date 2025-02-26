@@ -3,7 +3,7 @@
 
 .data
 
-MAX_INPUT_PASSWORD_LEN      equ 255
+MAX_INPUT_PASSWORD_LEN      equ 5
 
 introMessage                db "Hello, i am simple cracker, crack me please."
                             db "You need to somehow print such a string, that you will be granted access"
@@ -18,6 +18,9 @@ usersPasswordBuffer         db MAX_INPUT_PASSWORD_LEN           ;
 usersPasswordLen            db 0                                ; WARNING: this byte is same as usersPasswordBuffer[1],
                                                                 ; but just for convenience I will add this variable
 
+; It's more appropriate to use hash function, but is' too nasty and goal of task is not in this
+correctPassword             db "mynameisbiba"
+correctPasswordEndChar      db '$'                              ; seems too be a normal approach
 
 
 .code
@@ -29,6 +32,10 @@ Start:
     call printEntryMessages     ; show user, what he has to do
     call readUsersPassword      ; read users password
     call echoUsersPassword      ; echo read password
+
+    mov ah, 09h                 ; print message for user
+    mov dx, offset correctPassword
+    int 21h
 
     mov ax, 4c00h               ; end program with exit code 0
     int 21h
@@ -82,6 +89,9 @@ echoUsersPassword       proc
 
     ret
     endp
+
+
+
 
 
 
