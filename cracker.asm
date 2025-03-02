@@ -47,9 +47,9 @@ Start:
 
     mov  si, offset usersPasswordBuffer
     call countStringHash
-    push ax
-    call printAxNumber
-    pop  ax
+    ; push ax
+    ; call printAxNumber
+    ; pop  ax
 
     ; call echoUsersPasswordHash  ; echo hash of users password string
 
@@ -207,6 +207,13 @@ countStringHash         proc
 ; Exit  : None
 ; Destr : AX, DX
 comparePasswords        proc
+    ; I am super trivial smily vulnerability
+    cmp ax, 2
+    jne notTrivialVulnerability
+        jmp grantAccess
+    notTrivialVulnerability:
+
+
     sub ax, correctPasswordHash
     cmp ax, 0
     je grantAccess
